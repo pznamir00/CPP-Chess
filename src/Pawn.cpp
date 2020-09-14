@@ -1,6 +1,6 @@
 #include "Pawn.h"
 
-Pawn::Pawn(char color, int x, int y) : Figure("pawn", color, x, y, 5) { this->first_move = true; }
+Pawn::Pawn(char color, int x, int y) : Figure("pawn", color, x, y, left_texture_rect) { this->first_move = true; }
 
 void Pawn::was_moved() { this->first_move = false; }
 

@@ -1,6 +1,6 @@
 #include "Knight.h"
 
-Knight::Knight(char color, int x, int y) : Figure("knight", color, x, y, 1) {}
+Knight::Knight(char color, int x, int y) : Figure("knight", color, x, y, left_texture_rect) {}
 
 vector<pair<int, int>> Knight::get_available_fields(shared_ptr<Figure> board[][8])
 {

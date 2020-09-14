@@ -11,6 +11,8 @@
 #include "Rook.h"
 #include "Hetman.h"
 #include "King.h"
+#define H 8
+#define W 8
 using namespace std;
 using namespace sf;
 
@@ -18,35 +20,31 @@ using namespace sf;
 class Engine
 {
 private:
-    char turn;
-    Texture board_texture;
-    shared_ptr<Figure> active_fig;
-    vector<pair<int, int>> available_fields;
+    char turn; //tura
+    Texture board_texture; //tekstura planszy
+    shared_ptr<Figure> active_fig; //aktywna/z³apana figura
+    vector<pair<int, int>> available_fields; //pola dostêpne dla aktywnej figury
     class Control {
+        private: Event e;
         public: void handle(RenderWindow& window, Engine& engine);
     };
     friend class Control;
-
-public:
-    Sprite board_sprite;
-    unique_ptr<Control> control;
-    shared_ptr<Figure> board[8][8] = {  //inicjalizacja planszy
-        {make_shared<Rook>('b',0,0), make_shared<Knight>('b',1,0), make_shared<Bishop>('b',2,0), make_shared<Hetman>('b',3,0),
-         make_shared<King>('b',4,0), make_shared<Bishop>('b',5,0), make_shared<Knight>('b',6,0), make_shared<Rook>('b',7,0)},
-        {make_shared<Pawn>('b',0,1), make_shared<Pawn>('b',1,1), make_shared<Pawn>('b',2,1), make_shared<Pawn>('b',3,1),
-         make_shared<Pawn>('b',4,1), make_shared<Pawn>('b',5,1), make_shared<Pawn>('b',6,1), make_shared<Pawn>('b',7,1)},
-        {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-        {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
-        {make_shared<Pawn>('w',0,6), make_shared<Pawn>('w',1,6), make_shared<Pawn>('w',2,6), make_shared<Pawn>('w',3,6),
-         make_shared<Pawn>('w',4,6), make_shared<Pawn>('w',5,6), make_shared<Pawn>('w',6,6), make_shared<Pawn>('w',7,6)},
-        {make_shared<Rook>('w',0,7), make_shared<Knight>('w',1,7), make_shared<Bishop>('w',2,7), make_shared<Hetman>('w',3,7),
-         make_shared<King>('w',4,7), make_shared<Bishop>('w',5,7), make_shared<Knight>('w',6,7), make_shared<Rook>('w',7,7)}
+    const int default_board[H][W] = { //domyœlny "wzór" planszy
+        {-4,-2,-3,-5,-6,-3,-2,-4},
+        {-1,-1,-1,-1,-1,-1,-1,-1},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 1, 1, 1, 1, 1, 1, 1, 1},
+        { 4, 2, 3, 5, 6, 3, 2, 4}
     };
+    void init_board();
+public:
+    Sprite board_sprite; //sprajt planszy
+    unique_ptr<Control> control;
+    shared_ptr<Figure> board[H][W]; //plansza
     Engine();
-    void set_turn(const int turn);
-    int get_turn() const;
     void draw_all(RenderWindow& window);
     void placed_figure(int x, int y);
     void reset_active();

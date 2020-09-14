@@ -1,6 +1,6 @@
 #include "Rook.h"
 
-Rook::Rook(char color, int x, int y) : Figure("rook", color, x, y, 0) { this->was_moved = false; }
+Rook::Rook(char color, int x, int y) : Figure("rook", color, x, y, left_texture_rect) { this->was_moved = false; }
 
 bool Rook::check_moved() const
 {

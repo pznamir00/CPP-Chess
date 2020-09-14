@@ -12,6 +12,7 @@ class Pawn : public Figure
 {
 private:
     bool first_move;
+    static const unsigned left_texture_rect = 5;
 public:
     Pawn(char color, int x, int y);
     void was_moved();

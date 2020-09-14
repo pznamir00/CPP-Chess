@@ -13,6 +13,7 @@ class King : public Figure
 {
 private:
     bool was_moved;
+    static const unsigned left_texture_rect = 4;
 public:
     King(char color, int x, int y);
     bool check_moved() const;

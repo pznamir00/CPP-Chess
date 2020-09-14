@@ -6,12 +6,30 @@ Engine::Engine()
     this->board_sprite.setTexture(this->board_texture);
     this->turn = 'w';
     this->control = make_unique<Control>();
+    this->init_board();
 }
 
-void Engine::set_turn(const int turn){ this->turn = turn; }
+//na podstawie "wzoru" default_board tworzy tablicę obiektów board (wykonuje się tylko na początku gry)
+void Engine::init_board()
+{
+    for(int i=0;i<H;i++)
+    for(int j=0;j<W;j++)
+    {
+        char c = this->default_board[i][j] > 0 ? 'w' : 'b';
+        switch(abs(this->default_board[i][j]))
+        {
+            case 1: this->board[i][j] = make_shared<Pawn>(c,j,i);   break;
+            case 2: this->board[i][j] = make_shared<Knight>(c,j,i); break;
+            case 3: this->board[i][j] = make_shared<Bishop>(c,j,i); break;
+            case 4: this->board[i][j] = make_shared<Rook>(c,j,i);   break;
+            case 5: this->board[i][j] = make_shared<Hetman>(c,j,i); break;
+            case 6: this->board[i][j] = make_shared<King>(c,j,i);   break;
+            default: this->board[i][j] = nullptr;                   break;
+        }
+    }
+}
 
-int Engine::get_turn() const { return this->turn; }
-
+//rysowanie wszystkich obiektów na planszy
 void Engine::draw_all(RenderWindow& window)
 {
     window.draw(this->board_sprite);
@@ -20,44 +38,50 @@ void Engine::draw_all(RenderWindow& window)
             if(field) window.draw(field->sprite);
 }
 
-void Engine::placed_figure(int x, int y)
+//akcja na postawienie figury
+void Engine::placed_figure(int nx, int ny)
 {
+    //pobiera stare koordynaty
     const int px = this->active_fig->x, py = this->active_fig->y;
     this->board[this->active_fig->y][this->active_fig->x] = nullptr;
-    this->board[y][x] = this->active_fig;
-    this->active_fig->set_coordinates(x, y);
+    this->board[ny][nx] = this->active_fig;
+    this->active_fig->set_coordinates(nx, ny);
+
+    //jeśli wykonany ruch zagraża królowi, należy go cofnąć
     if(this->will_be_check_mate()){
-        //zrobiony ruch grozi matem, więc należy go cofnąć
         this->board[this->active_fig->y][this->active_fig->x] = nullptr;
         this->board[py][px] = this->active_fig;
         this->active_fig->set_coordinates(px, py);
         return;
     }
 
+    //król nie jest zagrożony
     this->check_spacial_actions();
     this->active_fig = nullptr;
     this->available_fields.clear();
     //zmiana tury
-    this->set_turn(this->turn == 'w' ? 'b' : 'w');
+    this->turn = this->turn == 'w' ? 'b' : 'w';
 }
 
+//dezaktywuje aktywną ("złapaną") figurę
 void Engine::reset_active()
 {
-    this->active_fig->set_coordinates(this->active_fig->x, this->active_fig->y);
+    this->active_fig->update_sprite();
     this->active_fig = nullptr;
     this->available_fields.clear();
 }
 
+//wykonuje promocję piona na hetmana na polu x, y
 void Engine::promotion(const Pawn* pawn, const int x, const int y)
 {
     this->board[y][x] = make_shared<Hetman>(pawn->get_color(), x, y);
 }
 
+//wykonuje specialne akcję po wykonanym ruchu (np. dla piona ustawia was_moved co oznacza, że pion został ruszony)
 void Engine::check_spacial_actions()
 {
     if(this->active_fig->name == "pawn")
     {
-        //pion został ruszony
         Pawn* pawn = (Pawn*)this->active_fig.get();
         pawn->was_moved();
         if(pawn->check_promotion())
@@ -72,6 +96,7 @@ void Engine::check_spacial_actions()
     {
         King* king = (King*)this->active_fig.get();
 
+        //sprawdza czy nie została wykonana roszada (jeśli x króla jest o 2 pola dalej niż początkowy jes]go stan to trzeba przestawić wieżę zgodnie z roszadą)
         if(!king->check_moved())
         {
             if(king->x == 2) king->castling("left", board);
@@ -82,6 +107,7 @@ void Engine::check_spacial_actions()
     }
 }
 
+//sprawdza czy z aktualnymi ustawieniami figur jest zagrożenie matem
 bool Engine::will_be_check_mate()
 {
     auto get_king_coords = [this](){
@@ -108,8 +134,14 @@ bool Engine::will_be_check_mate()
     return false;
 }
 
+//sterowanie gry
 void Engine::Control::handle(RenderWindow& window, Engine& engine)
 {
+    while (window.pollEvent(e)){
+        if (e.type == sf::Event::Closed)
+            window.close();
+    }
+
     if(Mouse::isButtonPressed(Mouse::Left))
     {
         for(auto& line : engine.board)
@@ -129,20 +161,20 @@ void Engine::Control::handle(RenderWindow& window, Engine& engine)
             }
         }
     }
-    else if(engine.active_fig)
+    else if(engine.active_fig) //aktywna figura została upuszczona
     {
-        //figure została puszczona
         const Vector2i mousePos = Mouse::getPosition(window);
         const int nx = floor(mousePos.x / Figure::dimension),
                   ny = floor(mousePos.y / Figure::dimension);
 
-        bool valid = false;
+        bool ok = false;
         for(auto field : engine.available_fields){
             if(field.first == ny && field.second == nx){
                 engine.placed_figure(nx, ny);
-                valid = true;
+                ok = true;
             }
         }
-        if(!valid) engine.reset_active();
+        //jeśli pole jest niedostępne, trzeba zresetowć figurę aktywną
+        if(!ok) engine.reset_active();
     }
 }

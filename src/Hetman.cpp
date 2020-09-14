@@ -1,6 +1,6 @@
 #include "Hetman.h"
 
-Hetman::Hetman(char color, int x, int y) : Figure("hetman", color, x, y, 4) {}
+Hetman::Hetman(char color, int x, int y) : Figure("hetman", color, x, y, left_texture_rect) {}
 
 vector<pair<int, int>> Hetman::get_available_fields(shared_ptr<Figure> board[][8])
 {

@@ -1,6 +1,6 @@
 #include "King.h"
 
-King::King(char color, int x, int y) : Figure("king", color, x, y, 3) { this->was_moved = false; }
+King::King(char color, int x, int y) : Figure("king", color, x, y, left_texture_rect) { this->was_moved = false; }
 
 bool King::check_moved() const { return this->was_moved; }
 

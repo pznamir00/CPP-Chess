@@ -12,6 +12,7 @@ class Rook : public Figure
 {
 private:
     bool was_moved;
+    static const unsigned left_texture_rect = 0;
 public:
     Rook(char color, int x, int y);
     void set_moved();

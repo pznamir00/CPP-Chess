@@ -1,6 +1,6 @@
 #include "Bishop.h"
 
-Bishop::Bishop(char color, int x, int y) : Figure("bishop", color, x, y, 2) {}
+Bishop::Bishop(char color, int x, int y) : Figure("bishop", color, x, y, left_texture_rect) {}
 
 vector<pair<int, int>> Bishop::get_available_fields(shared_ptr<Figure> board[][8])
 {

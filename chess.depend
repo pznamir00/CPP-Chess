@@ -414,14 +414,14 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1600037667 source:c:\chess\main.cpp
+1600099998 source:c:\chess\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 	"Engine.h"
 
-1600037602 c:\chess\include\figure.h
+1600099804 c:\chess\include\figure.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
@@ -429,7 +429,7 @@
 1600037653 source:c:\chess\src\figure.cpp
 	"Figure.h"
 
-1600036542 c:\chess\include\engine.h
+1600099971 c:\chess\include\engine.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
@@ -442,31 +442,31 @@
 	"Hetman.h"
 	"King.h"
 
-1600036556 c:\chess\include\pawn.h
+1600099754 c:\chess\include\pawn.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 
-1600036247 c:\chess\include\bishop.h
+1600099638 c:\chess\include\bishop.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 
-1600036263 c:\chess\include\knight.h
+1600099667 c:\chess\include\knight.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 
-1600036481 c:\chess\include\rook.h
+1600099655 c:\chess\include\rook.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 
-1600036250 c:\chess\include\hetman.h
+1600099694 c:\chess\include\hetman.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
@@ -474,31 +474,31 @@
 	"Rook.h"
 	"Bishop.h"
 
-1600036582 c:\chess\include\king.h
+1600099683 c:\chess\include\king.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	<memory>
 	"Figure.h"
 	"Rook.h"
 
-1600036659 source:c:\chess\src\bishop.cpp
+1600099615 source:c:\chess\src\bishop.cpp
 	"Bishop.h"
 
-1600037759 source:c:\chess\src\engine.cpp
+1600100029 source:c:\chess\src\engine.cpp
 	"Engine.h"
 
-1600037728 source:c:\chess\src\king.cpp
+1600099761 source:c:\chess\src\king.cpp
 	"King.h"
 
-1600037295 source:c:\chess\src\knight.cpp
+1600099768 source:c:\chess\src\knight.cpp
 	"Knight.h"
 
-1600037188 source:c:\chess\src\pawn.cpp
+1600099736 source:c:\chess\src\pawn.cpp
 	"Pawn.h"
 
-1600037057 source:c:\chess\src\rook.cpp
+1600099724 source:c:\chess\src\rook.cpp
 	"Rook.h"
 
-1600037524 source:c:\chess\src\hetman.cpp
+1600099730 source:c:\chess\src\hetman.cpp
 	"Hetman.h"
 
